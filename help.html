@@ -3,15 +3,25 @@
     <head>
         <title>Cowleo's help desk</title>
         <link rel = "stylesheet" type = "text/css" href = "help.css">
-        <link rel = "stylesheet" type = "text/css" href = "topnav.css">
+        <link rel = "stylesheet" type = "text/css" href = "global.css">
     </head>
     <body>
         <div class = "topnav">
-            <a href = "index.html">
-                <img src = "pizzaicon.png" height = 43px alt = "Cowleo's cooking">
-            </a>
-            <a href = "order.html"><p>ORDER</p></a>
-            <a class = "active" href = "help.html"><p>HELP</p></a>
+            <div class = "navbox">
+                <div class = "centrenav">
+                    <ul>
+                        <li><a href = "index.html">
+                            <img src = "pizzaicon.png" height = 43px alt = "Cowleo's cooking">
+                        </a></li>
+                        <li><a id = "navtext" href = "order.html">ORDER</a></li>
+                    </ul>
+                </div>
+                <div class = "rightnav">
+                    <ul>
+                        <li><a class = "active" id = "navtext" href = "help.html">HELP</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </body>
 </html>

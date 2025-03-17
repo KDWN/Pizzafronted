@@ -1,0 +1,66 @@
+html {
+    margin-top: 10vh;
+    color: rgb(255, 245, 180);
+    background-color: rgb(51, 50, 50);
+}
+
+.topnav {
+    background-color: rgb(255, 245, 180);
+    font-family: 'Poppins', sans-serif;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    align-items: center;
+}
+
+.navbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+}
+
+.topnav ul {
+    list-style: none;
+}
+
+.centrenav ul {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+}
+
+.rightnav ul {
+    margin-right: 20px;
+}
+
+.topnav a {
+    float: left;
+    color: rgb(50, 0, 0);
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 80px;
+    margin-left: 7.5vw;
+    margin-right: 2.5vw;
+}
+
+#navtext {
+    padding: 6px;
+    font-size: 39px;
+}
+
+.topnav a:hover {
+    background-color: black;
+    color : rgb(255, 245, 180);
+}
+
+.topnav a.active {
+    background-color: coral ;
+    color: black;
+}
+
+.heading {
+    text-align: center;
+}
