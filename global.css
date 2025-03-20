@@ -36,14 +36,16 @@ html {
 }
 
 .topnav a {
-    float: left;
     color: rgb(50, 0, 0);
-    text-align: center;
-    padding: 5px;
     text-decoration: none;
     border-radius: 80px;
-    margin-left: 7.5vw;
-    margin-right: 2.5vw;
+}
+
+#navicon {
+    float: left;
+    padding-top: 3px;   
+    padding-right: 3px;
+    padding-left: 3px;
 }
 
 #navtext {
