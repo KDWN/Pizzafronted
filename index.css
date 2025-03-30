@@ -42,3 +42,7 @@ body {
     color: black;
     font-size: 18px;
 }
+
+.menuitem:hover {
+    cursor:pointer;
+}
