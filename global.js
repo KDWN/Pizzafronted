@@ -1,12 +1,20 @@
-export function defpizzas() {
-//  name : price
-    var pizzas = {
+export const pizzas = {
+    //  name : price
         "cheese" : 5,
         "pepperoni" : 8,
         "garlic cheese" : 7.5,
-        "haiwaian" : 10,
+        "haiiwaian" : 10,
         "margherita" : 10,
         "meat lovers" : 12.5
-    };
-    return pizzas;
 };
+
+var debug = false
+window.debug = debug
+
+export function getpizzas() {
+    return pizzas;
+}
+
+export var orderList = [
+    
+]

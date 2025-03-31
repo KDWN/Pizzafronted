@@ -4,8 +4,7 @@
         <title>Cowleo's cooking</title>
         <link rel = "stylesheet" type = "text/css" href = "index.css">
         <link rel = "stylesheet" type = "text/css" href = "global.css">
-        <link rel = "script" type = "text/js" herf = "index.js"
-        <script type ="module", src="index.js"></script>
+        <script type ="module" src="index.js"></script>
     </head>
     <body>
         <div class = "topnav">
@@ -27,9 +26,10 @@
         </div>
         <h1 class = "heading"> Cowleo's Cooking</h1>
         <h2 class = "heading">Menu</h2>
+        <button onclick="debug = !debug" >Switch debug state</button>
         <div class = "menubox">
             <div class = "leftmenu">
-                <div class = "menuitem" onclick = "import('').then(o=> o.checkPurchase('cheese'))">
+                <div class = "menuitem">
                     <h1>Cheese</h1>
                     <img src = "pizzaitem.png" width = 175px>
                 </div>
