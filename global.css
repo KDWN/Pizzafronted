@@ -4,6 +4,10 @@ html {
     background-color: rgb(51, 50, 50);
 }
 
+body{
+    margin: 0;
+}
+
 .topnav {
     background-color: rgb(255, 245, 180);
     font-family: 'Poppins', sans-serif;

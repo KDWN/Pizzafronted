@@ -1,5 +1,9 @@
+// for debugging
+var debug = false
+window.debug = debug
+
 export const pizzas = {
-    //  name : price
+    //  pizza name : pizza price
         "cheese" : 5,
         "pepperoni" : 8,
         "garlic cheese" : 7.5,
@@ -8,13 +12,21 @@ export const pizzas = {
         "meat lovers" : 12.5
 };
 
-var debug = false
-window.debug = debug
-
+// calls pizzas for when we want to use it
 export function getpizzas() {
     return pizzas;
 }
 
-export var orderList = [
-    
+var orderList = {
+    // {name : string, cost : number, count : number}
+    // [name, cost, count]
+    // *name : {cost : number, count : number}*
+}
+
+window.orderList = orderList
+
+var orderedItems = [
+    // Name
 ]
+
+window.orderedItems = orderedItems
