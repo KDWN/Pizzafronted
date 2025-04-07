@@ -3,7 +3,7 @@ body {
 }
 
 
-.menubox {
+.menuBox {
     display: flex;
     justify-content: space-evenly;
     margin: 2rem;
@@ -11,22 +11,12 @@ body {
     overflow:auto;
 }
 
-.leftmenu {
+.itemBox {
     display: flexbox;
     justify-content: space-evenly;
 }
 
-.centremenu {
-    display: flexbox;
-    justify-content: space-evenly;
-}
-
-.rightmenu {
-    display: flexbox;
-    justify-content: space-evenly;
-}
-
-.menuitem { 
+.menuItem { 
     text-align: center;
     box-sizing: content-box;
     min-width: 300px;
@@ -42,6 +32,6 @@ body {
     font-size: 18px;
 }
 
-.menuitem:hover {
+.menuItem:hover {
     cursor:pointer;
 }

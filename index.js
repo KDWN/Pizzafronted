@@ -5,9 +5,9 @@ export function checkPurchase(itemName){ // Check what and how many products the
     if( itemCount == null || itemCount == "") {return} // checks if input is empty
     while(isNaN(itemCount) || itemCount % 1 != 0) {
         alert("Please input a whole number");
-        itemCount = prompt(`How many ${itemName} pizzas do you want to purchase?`);
+        itemCount = prompt(`How many ${itemName} pizzas do you want to add to cart?`);
     }
-    confirm(`This will cost $${itemCount * getpizzas()[itemName.toLowerCase()]}. Are you sure you want to purchase?`);
+    confirm(`This will cost $${itemCount * getpizzas()[itemName.toLowerCase()]}. Are you sure you want to add to cart?`);
     if(debug){console.log(orderedItems.includes(itemName.toLowerCase()))};
     if(orderedItems.includes(itemName.toLowerCase())){
         if(debug){console.log(`${itemName} in orderList`)}

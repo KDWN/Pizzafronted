@@ -8,7 +8,7 @@ body{
     margin: 0;
 }
 
-.topnav {
+.topNav {
     background-color: rgb(255, 245, 180);
     font-family: 'Poppins', sans-serif;
     position: fixed;
@@ -17,52 +17,52 @@ body{
     align-items: center;
 }
 
-.navbox {
+.navBox {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 10vh;
 }
 
-.topnav ul {
+.topNav ul {
     list-style: none;
 }
 
-.centrenav ul {
+.centreNav ul {
     display: flex;
     align-items: center;
     gap: 20px;
     margin-left: 20px;
 }
 
-.rightnav ul {
+.rightNav ul {
     margin-right: 20px;
 }
 
-.topnav a {
+.topNav a {
     color: rgb(50, 0, 0);
     text-decoration: none;
     border-radius: 80px;
 }
 
-#navicon {
+#navIcon {
     float: left;
     padding-top: 3px;   
     padding-right: 3px;
     padding-left: 3px;
 }
 
-#navtext {
+#navText {
     padding: 6px;
     font-size: 39px;
 }
 
-.topnav a:hover {
+.topNav a:hover {
     background-color: black;
     color : rgb(255, 245, 180);
 }
 
-.topnav a.active {
+.topNav a.active {
     background-color: coral ;
     color: black;
 }
