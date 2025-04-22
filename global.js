@@ -3,7 +3,7 @@ var debug = false
 window.debug = debug
 
 export const pizzas = {
-    //  pizza name : pizza price
+    //  pizza name (String) : pizza price (Number)
         "cheese" : 5,
         "pepperoni" : 8,
         "garlic cheese" : 7.5,
@@ -17,16 +17,13 @@ export function getpizzas() {
     return pizzas;
 }
 
-var orderList = {
-    // {name : string, cost : number, count : number}
-    // [name, cost, count]
-    // *name : {cost : number, count : number}*
+if( JSON.parse(localStorage.getItem("orderedItems"))[0] ) {}
+else {
+    // holds what items have been ordered and all their information
+    localStorage.setItem("orderList", JSON.stringify({}))
+        // name : {cost : number, count : number}
+
+    // holds the names of the ordered items without any excess data for quick checks
+    localStorage.setItem("orderedItems", JSON.stringify([]));
+        // Name (String);
 }
-
-window.orderList = orderList
-
-var orderedItems = [
-    // Name
-]
-
-window.orderedItems = orderedItems

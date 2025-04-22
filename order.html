@@ -4,24 +4,26 @@
         <title>Cowleo's ordering</title>
         <link rel = "stylesheet" type = "text/css" href = "order.css">
         <link rel = "stylesheet" type = "text/css" href = "global.css">
+        <script type = "module" src = "order.js"></script>
     </head>
     <body>
-        <div class = "topnav">
-            <div class = "navbox">
-                <div class = "centrenav">
+        <div class = "topNav">
+            <div class = "navBox">
+                <div class = "centreNav">
                     <ul>
-                        <li><a id = "navicon" href = "index.html">
-                            <img src = "pizzaicon.png" height = 43px alt = "Cowleo's cooking">
+                        <li><a id = "navIcon" href = "index.html">
+                            <img src = "pizzaicon.png" height = 64.5px alt = "Cowleo's cooking">
                         </a></li>
-                        <li><a class = "active" id = "navtext" href = "order.html">ORDER</a></li>
+                        <li><a class = "active" id = "navText" href = "order.html">CHECKOUT</a></li>
                     </ul>
                 </div>
-                <div class = "rightnav">
+                <div class = "rightNav">
                     <ul>
-                        <li><a id = "navtext" href = "help.html">HELP</a></li>
+                        <li><a id = "navText" href = "help.html">HELP</a></li>
                     </ul>
                 </div>
             </div>
         </div>
+        <button onclick="debug = !debug; console.log(`debug - ${debug}`)" >Switch debug state</button>
     </body>
 </html>
