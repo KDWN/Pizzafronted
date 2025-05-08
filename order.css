@@ -1,0 +1,152 @@
+#checkout {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-weight: bold;
+}
+
+#cartBox {
+    width: 60%;
+    margin-left: 2px;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+}
+
+#purchaseBox {
+    min-height: 500px;
+    width: 30%;
+    padding: 5px;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+    margin-right: 2px
+}
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: content-box;
+    min-width: 300px;
+    background-color: rgb(224, 214, 149);
+    color:black;
+    padding: 10px;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 25px;
+    margin: 5px;
+}
+
+.rightInfo {
+    display: flexbox;
+    justify-content: space-between;
+    box-sizing: content-box;
+    min-width: 300px;
+    text-align: center;
+}
+
+.nameBox {
+    box-sizing: content-box;
+    height:50%;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.bottomInfo {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: content-box;
+    margin-top: 5px;
+}
+
+.botLeftInfo {
+    display: flex;
+}
+
+.addItem {
+    width: 4vmin;
+    text-align: center;
+    font-size: 3.5vmin;
+    border: 2px solid black;
+    border-width: 2px 1px 2px 2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.addItem:hover {
+    cursor:pointer;
+}
+
+.countBox {
+    width: 10vmin;
+    text-align: center;
+    font-size: 3.5vmin;
+    border: 2px solid black;
+    border-width: 2px 1px 2px 1px;
+}
+
+.removeItem {
+    width: 4vmin;
+    text-align: center;
+    font-size: 3.5vmin;
+    border: 2px solid black;
+    border-width: 2px 2px 2px 1px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.removeItem:hover {
+    cursor:pointer;
+}
+
+.subCostBox{
+    width: 10vmin;
+    font-size: 3.5vmin;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.rubbish {
+    margin-top: calc(0% + 6vmin);
+    width: 5vmin;
+}
+
+.rubbish:hover {
+    cursor:pointer;
+}
+
+#purchaseBox {
+    position: fixed;
+    right: 10px;
+}
+
+#costBox {
+    background-color: rgb(224, 214, 149);
+    color:black;
+    font-size: 3vmin;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+#buyButton {
+    background-color: rgb(224, 214, 149);
+    color:black;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+#buyButton:hover {
+    cursor:pointer;
+}
+
+#clearBox {
+    background-color: rgb(224, 214, 149);
+    color:black;
+    font-size: 2.5vmin;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+    margin-top: 5px;    
+}
+
+#clearBox:hover {
+    cursor:pointer;
+}

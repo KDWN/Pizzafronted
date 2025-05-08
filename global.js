@@ -7,7 +7,7 @@ export const pizzas = {
         "cheese" : 5,
         "pepperoni" : 8,
         "garlic cheese" : 7.5,
-        "haiiwaian" : 10,
+        "hawaiian" : 10,
         "margherita" : 10,
         "meat lovers" : 12.5
 };

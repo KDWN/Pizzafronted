@@ -42,7 +42,7 @@ export function checkPurchase(itemName){ // Check what and how many products the
 }
 
 document.addEventListener("DOMContentLoaded", () => { // checks if page content is loaded
-    if(debug){console.log("page loaded")};
+    console.log("page loaded");
     document.querySelectorAll(".menuItem").forEach(menuItem => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         if(debug){console.log("adding lister")};
         menuItem.addEventListener("click", function() { // adds a check to the current menuItem that checks whenever it is clicked
