@@ -107,6 +107,7 @@ function increaseItem(item) {
     cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
     thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
     localStorage.setItem("orderList", JSON.stringify(cartInfo));
+    updatePrice();
 }
 
 function decreaseItem(item) {
@@ -123,17 +124,51 @@ function decreaseItem(item) {
     cartInfo[thisItem.id.replace("Pizza", "")].cost -= getpizzas()[thisItem.id.replace("Pizza", "")];
     thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
     localStorage.setItem("orderList", JSON.stringify(cartInfo));
+    updatePrice();
+}
+
+function completePurchase() {
+    var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+    var totalCost = 0;
+    for ( let i in cartInfo) {
+        totalCost += cartInfo[i].cost;
+    }
+    if(totalCost <= 0){
+        alert("Please add items to cart before trying to purchase");
+        return ;
+    }
+    if(confirm(`Do you want to complete purchase \nThis will cost $${totalCost}`)){
+        for (let i in cartInfo) {
+            if(debug){console.log("item removed")}; // debug
+            removeItem(i);
+        }
+        alert(`We thank you for attempting to purchase on our demo website. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and won't arrive. \nHave a good day :)`)
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("page loaded");
+
     var cartItems = JSON.parse(localStorage.getItem("orderedItems")); // get the string version of the orderedItems array and then convert it back into an array
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+    
     for (let i in cartInfo) {
-        console.log("item added");
+        if(debug){console.log("item added")}; // debug
         addCartItem(i, cartInfo[i].cost, cartInfo[i].count);
     }
-    updatePrice()
+    updatePrice();
+    
+    document.querySelector("#clearBox").addEventListener("click", function() {
+        for (let i in cartInfo) {
+            if(debug){console.log("item removed")}; // debug
+            removeItem(i);
+        }
+    });
+
+    document.querySelector("#buyButton").addEventListener("click", function() {
+        completePurchase();
+    });
+
     document.querySelectorAll(".rubbish").forEach(bin => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         if(debug){console.log("adding lister")};
         bin.addEventListener("click", function() {
@@ -141,20 +176,16 @@ document.addEventListener("DOMContentLoaded", () => {
             removeItem(thisItem.id.replace("Pizza", ""));
         });
     });
+
     document.querySelectorAll(".addItem").forEach(adder => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         adder.addEventListener("click", function() {
             increaseItem(this);
         });
     });
+
     document.querySelectorAll(".removeItem").forEach(reducer => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         reducer.addEventListener("click", function() {
             decreaseItem(this);
         });
-    });
-    document.querySelector("#clearBox").addEventListener("click", function() {
-        for (let i in cartInfo) {
-            console.log("item removed");
-            removeItem(i);
-        }
     });
 });
