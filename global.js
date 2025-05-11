@@ -18,7 +18,7 @@ export function getpizzas() {
 }
 
 try { JSON.parse(localStorage.getItem("orderedItems"))[0] }
-catch {
+catch (error) {
     // holds what items have been ordered and all their information
     localStorage.setItem("orderList", JSON.stringify({}))
         // name : {cost : number, count : number}
