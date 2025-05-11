@@ -43,20 +43,7 @@ body{
 .topNav a {
     color: rgb(50, 0, 0);
     text-decoration: none;
-    border :4px ;
-    border-radius: 80px;
-}
-
-#navIcon {
-    float: left;
-    padding-top: 3px;   
-    padding-right: 3px;
-    padding-left: 3px;
-}
-
-#navText {
-    padding: 6px;
-    font-size: 39px;
+    border-radius: 80px;    
 }
 
 .topNav a:hover {
@@ -65,12 +52,33 @@ body{
 }
 
 .topNav a.active {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgb(0, 0, 0);
+    border : 1px rgb(0, 0, 0) solid;
     color : coral;
 }
 
 .topNav a.active:hover {
-    border :4px solid coral;
+    border : 1px solid coral;
+}
+
+#navIcon {
+    float: left;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+#navIcon .active {
+    float: left;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+#navText {
+    padding: 6px;
+    font-size: 39px;
 }
 
 .heading {

@@ -63,8 +63,8 @@ function addCartItem(name, cost, count) {
     document.getElementById("cartBox").appendChild(newItem)
 }
 
-function removeCartItem(name) {
-    let cartItem = document.getElementById(`${name}pizza`);
+function removeCartItem(name) {     
+    let cartItem = document.getElementById(`${name}Pizza`);
     cartItem.remove();
 }
 
@@ -79,6 +79,7 @@ function removeItem(item) {
     removeCartItem(item);
     localStorage.setItem("orderList", JSON.stringify(cartInfo));
     localStorage.setItem("orderedItems", JSON.stringify(cartItems));
+    updatePrice();
 }
 
 function updatePrice() {
@@ -88,7 +89,40 @@ function updatePrice() {
     for ( let i in cartInfo ) {
         totalCost += cartInfo[i].cost;
     }
+
     costText.innerHTML = `$${totalCost}`
+}
+
+function increaseItem(item) {
+    var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+    let thisItem = item.closest(".cartItem");
+    let thisBottom = item.closest(".bottomInfo");
+    let thisBotLeft = item.closest(".botLeftInfo");
+    let thisCountBox = thisBotLeft.childNodes[1];
+    let thisCount = thisCountBox.childNodes[0];
+    let thisCostBox = thisBottom.childNodes[1];
+    let thisCost = thisCostBox.childNodes[0];
+    cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
+    thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+    cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
+    thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
+    localStorage.setItem("orderList", JSON.stringify(cartInfo));
+}
+
+function decreaseItem(item) {
+    var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+    let thisItem = item.closest(".cartItem");
+    let thisBottom = item.closest(".bottomInfo");
+    let thisBotLeft = item.closest(".botLeftInfo");
+    let thisCountBox = thisBotLeft.childNodes[1];
+    let thisCount = thisCountBox.childNodes[0];
+    let thisCostBox = thisBottom.childNodes[1];
+    let thisCost = thisCostBox.childNodes[0];
+    cartInfo[thisItem.id.replace("Pizza", "")].count -= 1;
+    thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+    cartInfo[thisItem.id.replace("Pizza", "")].cost -= getpizzas()[thisItem.id.replace("Pizza", "")];
+    thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
+    localStorage.setItem("orderList", JSON.stringify(cartInfo));
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -99,26 +133,28 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("item added");
         addCartItem(i, cartInfo[i].cost, cartInfo[i].count);
     }
-    updatePrice();
-    document.querySelectorAll(".cartItem").forEach(cartItem => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
+    updatePrice()
+    document.querySelectorAll(".rubbish").forEach(bin => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         if(debug){console.log("adding lister")};
-        cartItem.querySelectorAll(".botLeftInfo").forEach(botLeft => {
-            botLeft.querySelectorAll(".addItem").forEach(adder => {
-                adder.addEventListener("click", function() {
-                    if(debug){console.log("clicking")};
-                    if(debug){console.log(`debug - ${debug}`)};
-                    cartInfo[itemName].count += 1;
-                });
-            });
+        bin.addEventListener("click", function() {
+            let thisItem = this.closest(".cartItem");
+            removeItem(thisItem.id.replace("Pizza", ""));
         });
-        
-        cartItem.addEventListener("click", function() { // adds a check to the current menuItem that checks whenever it is clicked
+    });
+    document.querySelectorAll(".addItem").forEach(adder => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
+        adder.addEventListener("click", function() {
+            increaseItem(this);
+        });
+    });
+    document.querySelectorAll(".removeItem").forEach(reducer => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
+        reducer.addEventListener("click", function() {
+            decreaseItem(this);
         });
     });
     document.querySelector("#clearBox").addEventListener("click", function() {
         for (let i in cartInfo) {
-            console.log("item removed")
-            removeItem(i)
+            console.log("item removed");
+            removeItem(i);
         }
     });
 });
