@@ -27,42 +27,15 @@
         <button onclick="debug = !debug; console.log(`debug - ${debug}`)" >Switch debug state</button>
         <div id = "checkout">
             <div id = "cartBox">
-                <div id = "CheesePizza" class = "cartItem">
-                    <div class = "imgBox">
-                        <img src="pizzaitem.png" width="200px">
-                    </div>
-                    <div class = "rightInfo">
-                        <div class = "nameBox">
-                            <h1>Cheese</h1>
-                        </div>
-                        <div class = "bottomInfo">
-                            <div class = "botLeftInfo">
-                                <div class = "addItem">
-                                    <p>+</p>
-                                </div>
-                                <div id = "CheeseIncrease" class = "countBox">
-                                    <p>2</p>
-                                </div>
-                                <div id = "CheeseDecrease" class = "removeItem">
-                                    <p>-</p>
-                                </div>
-                            </div>
-                            <div id = "CheeseBox" class = "subCostBox">
-                                <p>$10</p>
-                            </div>
-                            <div>
-                                <img src = "trash-item.png" id = "CheeseRubbish" class = "rubbish" width = "50px">
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div id = "purchaseBox">
-                <div id = "costBox">
-                    <p id = "totalCostText"></p>
-                </div>
-                <div id = "buyButton">
-                    <h2 id = "proceed">Complete purchase</h2>
+                <div id = "topPurchase">
+                    <div id = "buyButton">
+                        <h2 id = "proceed">Complete purchase</h2>
+                    </div>
+                    <div id = "costBox">
+                        <p id = "totalCostText"></p>
+                    </div>
                 </div>
                 <div id = "clearBox">
                     <p id = "clearText">Clear Cart</p>

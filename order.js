@@ -36,18 +36,18 @@ function addCartItem(name, cost, count) {
     var newCostText = document.createTextNode(`$${cost}`);
     var newDeleteBox = document.createElement("div");
     var newBin = document.createElement("img");
-    newBin.className = "rubbish"
+    newBin.className = "rubbish";
     newBin.src = "trash-item.png";
     newBin.width = 50;
-    newIncrease.appendChild(newIncreaseText)
-    newIncreaseBox.appendChild(newIncrease)
-    newBotLeft.appendChild(newIncreaseBox);
-    newCount.appendChild(newCountText);
-    newCountBox.appendChild(newCount);
-    newBotLeft.appendChild(newCountBox);
     newDecrease.appendChild(newDecreaseText)
     newDecreaseBox.appendChild(newDecrease)
     newBotLeft.appendChild(newDecreaseBox);
+    newCount.appendChild(newCountText);
+    newCountBox.appendChild(newCount);
+    newBotLeft.appendChild(newCountBox);
+    newIncrease.appendChild(newIncreaseText)
+    newIncreaseBox.appendChild(newIncrease)
+    newBotLeft.appendChild(newIncreaseBox);
     newCost.appendChild(newCostText);
     newCostBox.appendChild(newCost);
     newBottom.appendChild(newBotLeft);
@@ -119,12 +119,16 @@ function decreaseItem(item) {
     let thisCount = thisCountBox.childNodes[0];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
-    cartInfo[thisItem.id.replace("Pizza", "")].count -= 1;
-    thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
-    cartInfo[thisItem.id.replace("Pizza", "")].cost -= getpizzas()[thisItem.id.replace("Pizza", "")];
-    thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
-    localStorage.setItem("orderList", JSON.stringify(cartInfo));
-    updatePrice();
+    if ( cartInfo[thisItem.id.replace("Pizza", "")].count - 1 != 0 ) {
+        cartInfo[thisItem.id.replace("Pizza", "")].count -= 1;
+        thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+        cartInfo[thisItem.id.replace("Pizza", "")].cost -= getpizzas()[thisItem.id.replace("Pizza", "")];
+        thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
+        localStorage.setItem("orderList", JSON.stringify(cartInfo));
+        updatePrice();
+    } else {
+        removeItem(thisItem.id.replace("Pizza", ""));
+    }
 }
 
 function completePurchase() {
@@ -173,7 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if(debug){console.log("adding lister")};
         bin.addEventListener("click", function() {
             let thisItem = this.closest(".cartItem");
-            removeItem(thisItem.id.replace("Pizza", ""));
+            if(confirm(`Are you sure you want to remove your ${thisItem.id.replace("Pizza", "")} pizza(s) from the cart.`)) {
+                removeItem(thisItem.id.replace("Pizza", ""));
+            }
         });
     });
 

@@ -8,17 +8,7 @@
 #cartBox {
     width: 60%;
     margin-left: 2px;
-    border: 3px solid rgb(176, 130, 101);
     border-radius: 5px;
-}
-
-#purchaseBox {
-    min-height: 500px;
-    width: 30%;
-    padding: 5px;
-    border: 3px solid rgb(176, 130, 101);
-    border-radius: 5px;
-    margin-right: 2px
 }
 
 .cartItem {
@@ -65,9 +55,9 @@
     text-align: center;
     font-size: 3.5vmin;
     border: 2px solid black;
-    border-width: 2px 1px 2px 2px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-width: 2px 2px 2px 1px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .addItem:hover {
@@ -87,9 +77,9 @@
     text-align: center;
     font-size: 3.5vmin;
     border: 2px solid black;
-    border-width: 2px 2px 2px 1px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-width: 2px 1px 2px 2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .removeItem:hover {
@@ -113,22 +103,34 @@
 }
 
 #purchaseBox {
-    position: fixed;
-    right: 10px;
-}
-
-#costBox {
-    background-color: rgb(224, 214, 149);
-    color:black;
-    font-size: 3vmin;
+    min-height: 500px;
+    width: 30%;
+    padding: 5px;
     border: 3px solid rgb(176, 130, 101);
     border-radius: 5px;
-    margin-bottom: 5px;
+    margin-right: 2px;
+    position: fixed;
+    right: 10px;
+    align-items: center;
+}
+
+#topPurchase {
+    height: 30vmin;
 }
 
 #buyButton {
+    position: relative;
     background-color: rgb(224, 214, 149);
     color:black;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+}
+
+#costBox {
+    position: relative;
+    background-color: rgb(224, 214, 149);
+    color:black;
+    font-size: 3vmin;
     border: 3px solid rgb(176, 130, 101);
     border-radius: 5px;
     margin-top: 5px;
@@ -144,7 +146,7 @@
     font-size: 2.5vmin;
     border: 3px solid rgb(176, 130, 101);
     border-radius: 5px;
-    margin-top: 5px;    
+    margin-top: 50px;
 }
 
 #clearBox:hover {
