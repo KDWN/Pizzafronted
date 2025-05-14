@@ -102,12 +102,16 @@ function increaseItem(item) {
     let thisCount = thisCountBox.childNodes[0];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
-    cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
-    thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
-    cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
-    thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
-    localStorage.setItem("orderList", JSON.stringify(cartInfo));
-    updatePrice();
+    if ( cartInfo[thisItem.id.replace("Pizza", "")].count + 1 <= 100 ) {
+        cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
+        thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+        cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
+        thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
+        localStorage.setItem("orderList", JSON.stringify(cartInfo));
+        updatePrice();
+    } else {
+        alert("We can't sell you more than 100 of one pizza type.");
+    }
 }
 
 function decreaseItem(item) {
