@@ -1,0 +1,14 @@
+#demoState {
+    text-align: center;
+    color: coral;
+}
+
+.instruction {
+    width: 50%;
+    margin: 5px 25% 0px 25%;
+    text-align: center;
+    background-color: rgb(224, 214, 149);
+    color: black;
+    border: 3px solid rgb(176, 130, 101);
+    border-radius: 5px;
+}

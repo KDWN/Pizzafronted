@@ -60,7 +60,7 @@ function addCartItem(name, cost, count) {
     newRight.appendChild(newBottom);
     newItem.appendChild(itemImg);
     newItem.appendChild(newRight);
-    document.getElementById("cartBox").appendChild(newItem)
+    document.getElementById("cartBox").appendChild(newItem);
 }
 
 function removeCartItem(name) {     
@@ -150,7 +150,9 @@ function completePurchase() {
             if(debug){console.log("item removed")}; // debug
             removeItem(i);
         }
-        alert(`We thank you for attempting to purchase on our demo website. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and won't arrive. \nHave a good day :)`)
+        alert(`We thank you for attempting to purchase on our demo website. 
+Unfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and won't arrive. 
+Have a good day :)`);
     }
 }
 
