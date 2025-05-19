@@ -33,5 +33,6 @@ body {
 }
 
 .menuItem:hover {
+    background-color: rgb(230, 195, 135);
     cursor:pointer;
 }

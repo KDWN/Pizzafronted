@@ -1,35 +1,39 @@
 import { getpizzas } from "./global.js";
-
+var debug = JSON.parse(localStorage.getItem("debug"));
 
 function addCartItem(name, cost, count) {
+    if(debug){console.log(`name: ${name}, cost: ${cost}, count: ${count}`)}
     var newItem = document.createElement("div");
     newItem.className = "cartItem";
     newItem.id = `${name}Pizza`
     var itemImg = document.createElement("img");
-    itemImg.src = "pizzaitem.png";
+    itemImg.src = `${name.replace(" ", "-")}-pizza.png`;
     itemImg.width = 200;
     var newRight = document.createElement("div");
     newRight.className = "rightInfo";
     var newNameBox = document.createElement("div");
     newNameBox.className = "nameBox";
     var newName = document.createElement("h1");
-    var newNameText = document.createTextNode(name);
+    var newNameText = document.createTextNode(`${name} pizza`);
     var newBottom = document.createElement("div");
     newBottom.className = "bottomInfo";
     var newBotLeft = document.createElement("div");
     newBotLeft.className = "botLeftInfo";
-    var newIncreaseBox = document.createElement("div");
-    newIncreaseBox.className = "addItem";
-    var newIncrease = document.createElement("p");
-    var newIncreaseText = document.createTextNode("+");
-    var newCountBox = document.createElement("div");
-    newCountBox.className = "countBox";
-    var newCount = document.createElement("p");
-    var newCountText = document.createTextNode(count);
     var newDecreaseBox = document.createElement("div");
     newDecreaseBox.className = "removeItem";
     var newDecrease = document.createElement("p");
     var newDecreaseText = document.createTextNode("-");
+    var newCountBox = document.createElement("div");
+    newCountBox.className = "countBox";
+    var newCount = document.createElement("p");
+    var newCountText = document.createTextNode(count);
+    var newIncreaseBox = document.createElement("div");
+    newIncreaseBox.className = "addItem";
+    if ( count > 99 ) {
+        newIncreaseBox.classList.add("fullItem");
+    }
+    var newIncrease = document.createElement("p");
+    var newIncreaseText = document.createTextNode("+");
     var newCostBox = document.createElement("div");
     newCostBox.className = "subCostBox";
     var newCost = document.createElement("p");
@@ -65,6 +69,7 @@ function addCartItem(name, cost, count) {
 
 function removeCartItem(name) {     
     let cartItem = document.getElementById(`${name}Pizza`);
+    if(debug){cartItem}
     cartItem.remove();
 }
 
@@ -102,15 +107,17 @@ function increaseItem(item) {
     let thisCount = thisCountBox.childNodes[0];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
-    if ( cartInfo[thisItem.id.replace("Pizza", "")].count + 1 <= 100 ) {
-        cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
-        thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
-        cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
-        thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
-        localStorage.setItem("orderList", JSON.stringify(cartInfo));
-        updatePrice();
-    } else {
-        alert("We can't sell you more than 100 of one pizza type.");
+    if (item.classList.contains("fullItem")){
+        return ;
+    }
+    cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
+    thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+    cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
+    thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
+    localStorage.setItem("orderList", JSON.stringify(cartInfo));
+    updatePrice();
+    if ( cartInfo[thisItem.id.replace("Pizza", "")].count > 99 ) {
+        item.classList.add("fullItem");
     }
 }
 
@@ -123,6 +130,10 @@ function decreaseItem(item) {
     let thisCount = thisCountBox.childNodes[0];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
+    let thisAdder = thisBotLeft.childNodes[2];
+    if (thisAdder.classList.contains("fullItem")){
+        thisAdder.classList.remove("fullItem");
+    }
     if ( cartInfo[thisItem.id.replace("Pizza", "")].count - 1 != 0 ) {
         cartInfo[thisItem.id.replace("Pizza", "")].count -= 1;
         thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
@@ -131,7 +142,9 @@ function decreaseItem(item) {
         localStorage.setItem("orderList", JSON.stringify(cartInfo));
         updatePrice();
     } else {
-        removeItem(thisItem.id.replace("Pizza", ""));
+        if(confirm(`Are you sure you want to remove your ${thisItem.id.replace("Pizza", "")} pizza from the cart.`)) {
+            removeItem(thisItem.id.replace("Pizza", ""));
+        }
     }
 }
 
@@ -172,11 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i in cartInfo) {
             if(debug){console.log("item removed")}; // debug
             removeItem(i);
+            cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
         }
     });
 
     document.querySelector("#buyButton").addEventListener("click", function() {
         completePurchase();
+        cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
     });
 
     document.querySelectorAll(".rubbish").forEach(bin => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
@@ -185,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let thisItem = this.closest(".cartItem");
             if(confirm(`Are you sure you want to remove your ${thisItem.id.replace("Pizza", "")} pizza(s) from the cart.`)) {
                 removeItem(thisItem.id.replace("Pizza", ""));
+                cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
             }
         });
     });
@@ -192,12 +208,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".addItem").forEach(adder => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         adder.addEventListener("click", function() {
             increaseItem(this);
+            cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
         });
     });
 
     document.querySelectorAll(".removeItem").forEach(reducer => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
         reducer.addEventListener("click", function() {
             decreaseItem(this);
+            cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
         });
     });
 });

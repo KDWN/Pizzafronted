@@ -4,6 +4,7 @@
         <title>Cowleo's help desk</title>
         <link rel = "stylesheet" type = "text/css" href = "help.css">
         <link rel = "stylesheet" type = "text/css" href = "global.css">
+        <script type = "module" src = "global.js"></script>
     </head>
     <body>
         <div class = "topNav">
@@ -23,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <button onclick="debug = !debug; console.log(`debug - ${debug}`)" >Switch debug state</button>
+        <button onclick = "if(JSON.parse(localStorage.getItem('debug')) == false){console.log('false'); localStorage.setItem('debug', JSON.stringify(true))} else{console.log('true'); localStorage.setItem('debug', JSON.stringify(false))} ; console.log(`debug - ${JSON.parse(localStorage.getItem('debug'))}`)" >Switch debug state</button>
         <div id = "demoState">
             <h1>
             !!This is a demo website so we cannot sell you anything!!

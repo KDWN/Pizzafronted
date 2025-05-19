@@ -1,4 +1,5 @@
 import { getpizzas } from "./global.js";
+var debug = JSON.parse(localStorage.getItem("debug"));
 
 function checkValidity(item, count) {
     var cartItems = JSON.parse(localStorage.getItem("orderedItems")); // get the string version of the orderedItems array and then convert it back into an array
@@ -25,9 +26,7 @@ function checkPurchase(itemName){ // Check what and how many products the user w
         var cartItems = [];
         var cartInfo = {};
     }
-    let incomplete = true;
     let failType = 0;
-    
     let fails = ["", "Please input a whole number", "Please input a positive number", "Please input a number", "You can't have a negative amount of pizzas. \nPlease input a higher number", "We can't sell you more than 100 of one pizza type. \nPlease input a lower number"]
     let itemCount = prompt(`How many ${itemName} pizzas do you want to purchase?`);
     if( itemCount == null || itemCount == "" || itemCount == 0) {return} // checks if input is empty
