@@ -3,6 +3,7 @@
     justify-content: space-between;
     text-align: center;
     font-weight: bold;
+    color: black;
 }
 
 #cartBox {
@@ -142,18 +143,30 @@
 #buyButton {
     position: relative;
     background-color: rgb(224, 214, 149);
-    color:black;
     border: 3px solid rgb(176, 130, 101);
     border-radius: 5px;
 }
 
-#buyButton:hover {
+#buyButton.cartLoaded:hover {
     background-color: rgb(230, 195, 135);
     box-sizing: content-box;
     width: 97.5%;
     margin: 0px 1.75% 0px 0.75%;
     border: 3px solid rgb(141, 90, 61);
     cursor:pointer;
+}
+
+#buyButton.emptyCart {
+    background-color: rgba(224, 214, 149, 0.87);
+    border: 3px solid rgba(176, 130, 101, 0.87);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+#buyButton.emptyCart:hover {
+    background-color: rgba(224, 214, 149, 0.87);
+    border: 3px solid rgba(176, 130, 101, 0.87);
+    color: rgba(0, 0, 0, 0.8);
+    cursor: not-allowed;
 }
 
 #costBox {
@@ -168,18 +181,30 @@
 
 #clearBox {
     background-color: rgb(224, 214, 149);
-    color:black;
     font-size: 2.5vmin;
     border: 3px solid rgb(176, 130, 101);
     border-radius: 5px;
     margin-top: 50px;
 }
 
-#clearBox:hover {
+#clearBox.cartLoaded:hover {
     background-color: rgb(230, 195, 135);
     box-sizing: content-box;
     width: 97.5%;
     margin: 50px 1.75% 0px 0.75%;
     border: 3px solid rgb(141, 90, 61);
     cursor:pointer;
+}
+
+#clearBox.emptyCart {
+    background-color: rgba(224, 214, 149, 0.87);
+    border: 3px solid rgba(176, 130, 101, 0.87);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+#clearBox.emptyCart:hover {
+    background-color: rgba(224, 214, 149, 0.87);
+    border: 3px solid rgba(176, 130, 101, 0.87);
+    color: rgba(0, 0, 0, 0.8);
+    cursor: not-allowed;
 }

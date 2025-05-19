@@ -1,8 +1,9 @@
 import { getpizzas } from "./global.js";
 var debug = JSON.parse(localStorage.getItem("debug"));
+var cartEmpty = false;
 
 function addCartItem(name, cost, count) {
-    if(debug){console.log(`name: ${name}, cost: ${cost}, count: ${count}`)}
+    if(debug){console.log(`name: ${name}, cost: ${cost}, count: ${count}`)} // debug
     var newItem = document.createElement("div");
     newItem.className = "cartItem";
     newItem.id = `${name}Pizza`
@@ -69,18 +70,18 @@ function addCartItem(name, cost, count) {
 
 function removeCartItem(name) {     
     let cartItem = document.getElementById(`${name}Pizza`);
-    if(debug){cartItem}
+    if(debug){cartItem} // debug
     cartItem.remove();
 }
 
 function removeItem(item) {
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
     var cartItems = JSON.parse(localStorage.getItem("orderedItems")); // get the string version of the orderedItems array and then convert it back into an array
-    if(debug){console.log(`deleting ${item} from orderList`)};
+    if(debug){console.log(`deleting ${item} from orderList`)}; // debug
     delete cartInfo[item];
-    if(debug){console.log(`deleting ${item} from orderedItems`)};
+    if(debug){console.log(`deleting ${item} from orderedItems`)}; // debug
     cartItems = cartItems.filter(kept => kept !== item);
-    if(debug){console.log(`${cartItems}`)};
+    if(debug){console.log(`cartItems - ${cartItems}`)}; // debug
     removeCartItem(item);
     localStorage.setItem("orderList", JSON.stringify(cartInfo));
     localStorage.setItem("orderedItems", JSON.stringify(cartItems));
@@ -89,13 +90,24 @@ function removeItem(item) {
 
 function updatePrice() {
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+    var cartItems = JSON.parse(localStorage.getItem("orderedItems")); // get the string version of the orderedItems array and then convert it back into an array
     var totalCost = 0;
     var costText = document.getElementById("totalCostText");
     for ( let i in cartInfo ) {
         totalCost += cartInfo[i].cost;
     }
-
-    costText.innerHTML = `$${totalCost}`
+    try{
+        cartInfo[cartItems[0]].cost;
+        costText.innerHTML = `$${totalCost}`;
+    }
+    catch (error) {
+        if(debug){console.log("empty-cart")} // debug
+        document.getElementById("buyButton").className = "emptyCart";
+        document.getElementById("clearBox").className = "emptyCart";
+        costText.innerHTML = "Cart empty";
+        cartEmpty = true;
+    }
+    if(debug){console.log(`cartEmpty - ${cartEmpty}`)} // debug
 }
 
 function increaseItem(item) {
@@ -154,10 +166,6 @@ function completePurchase() {
     for ( let i in cartInfo) {
         totalCost += cartInfo[i].cost;
     }
-    if(totalCost <= 0){
-        alert("Please add items to cart before trying to purchase");
-        return ;
-    }
     if(confirm(`Do you want to complete purchase \nThis will cost $${totalCost}`)){
         for (let i in cartInfo) {
             if(debug){console.log("item removed")}; // debug
@@ -175,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var cartItems = JSON.parse(localStorage.getItem("orderedItems")); // get the string version of the orderedItems array and then convert it back into an array
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
     
+
     for (let i in cartInfo) {
         if(debug){console.log("item added")}; // debug
         addCartItem(i, cartInfo[i].cost, cartInfo[i].count);
@@ -182,16 +191,20 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePrice();
     
     document.querySelector("#clearBox").addEventListener("click", function() {
-        for (let i in cartInfo) {
-            if(debug){console.log("item removed")}; // debug
-            removeItem(i);
-            cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+        if(!cartEmpty){
+            for (let i in cartInfo) {
+                if(debug){console.log("item removed")}; // debug
+                removeItem(i);
+                cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+            }
         }
     });
 
     document.querySelector("#buyButton").addEventListener("click", function() {
-        completePurchase();
-        cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+        if(!cartEmpty){
+            completePurchase();
+            cartInfo = JSON.parse(localStorage.getItem("orderList")); // get the string version of the orderList object and then convert it back into an object
+        }
     });
 
     document.querySelectorAll(".rubbish").forEach(bin => { // creates a nodeList for each element with the menuitem class referred to as menuItem (like iterating through an array)
