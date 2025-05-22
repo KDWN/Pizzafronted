@@ -12,6 +12,7 @@
     border-radius: 5px;
 }
 
+/*The items below are created using JS*/
 .cartItem {
     display: flex;
     justify-content: space-between;
@@ -122,6 +123,7 @@
     margin: calc(0% + 6vmin) 0vmin 0.1vmin 0.1vmin;
     cursor:pointer;
 }
+/*End of the items that we create with JS*/
 
 #purchaseBox {
     min-height: 500px;
@@ -178,8 +180,7 @@
     border-radius: 5px;
     margin-top: 5px;
 }
-
-#clearBox {
+#clearBox { 
     background-color: rgb(224, 214, 149);
     font-size: 2.5vmin;
     border: 3px solid rgb(176, 130, 101);

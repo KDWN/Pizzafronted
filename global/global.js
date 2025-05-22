@@ -1,6 +1,6 @@
 // for debugging
 try { JSON.parse(localStorage.getItem("debug"))}
-catch (error) {
+catch {
     localStorage.setItem("debug", JSON.stringify(false));
 }
 
@@ -19,8 +19,9 @@ export function getpizzas() {
     return pizzas;
 }
 
+// Checks if the variables exist in localStorage, then creates them if they don't
 try { JSON.parse(localStorage.getItem("orderedItems"))[0] }
-catch (error) {
+catch {
     // holds what items have been ordered and all their information
     localStorage.setItem("orderList", JSON.stringify({}));
         // name : {cost : number, count : number}
