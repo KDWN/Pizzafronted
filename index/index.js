@@ -111,13 +111,17 @@ function checkPurchase(itemName){
     }
 }
 
-// Adds a check to each menu item so when they are clicked they run the checkPurchase function to add the item to the cart
+// Runs the functions declared above either when the page loads or when the associated item is clicked
 document.addEventListener("DOMContentLoaded", () => {
     console.log("page loaded");
+
+    // Add all the HTML items for the user to see when the page loads
     for(let pizza in getpizzas()) {
         if(debug){console.log(`Creating ${pizza} menu item`)}
         createMenu(pizza);
     };
+
+    // Adds a check to each menu item so when they are clicked they run the checkPurchase function to add the item to the cart
     document.querySelectorAll(".menuItem").forEach(menuItem => {
         if(debug){console.log("adding lister")}; // debug  
         menuItem.addEventListener("click", function() {
