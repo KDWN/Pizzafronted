@@ -3,17 +3,12 @@ body {
 }
 
 
-.menuBox {
+#menuBox {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     margin: 2rem;
     border: 2px solid;
-    overflow:auto;
-}
-
-.itemBox {
-    display: flexbox;
-    justify-content: space-evenly;
 }
 
 .menuItem { 

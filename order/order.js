@@ -14,7 +14,13 @@ function addCartItem(name, cost, count) {
     newItem.className = "cartItem";
     newItem.id = `${name}Pizza`
     var itemImg = document.createElement("img");
+    
+    // Makes sure the image can be generated
     itemImg.src = `../images/${name.replace(" ", "-")}-pizza.png`;
+    itemImg.onerror = () => {
+        itemImg.src = "../images/unknown-pizza.png";
+    }
+
     itemImg.width = 200;
     var newRight = document.createElement("div");
     newRight.className = "rightInfo";
@@ -221,14 +227,25 @@ function completePurchase() {
     // Convert orderList and orderedItems from string to object/array
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
     
+    var deliver;
+    var validInput = ["yes", "no"]
+
     // Calculate the the total price
     var totalCost = 0;
     for ( let i in cartInfo) {
         totalCost += cartInfo[i].cost;
     }
 
+
     // Reset the cart if the user's confirms
     if(confirm(`Do you want to complete purchase \nThis will cost $${totalCost}`)){
+        deliver = prompt(`Do you want the order to be delivered? \nThis will cost an extra $3 totalling to $${totalCost} \n(yes/no)`);
+        if(deliver === null || deliver === ""){return}
+        while(!validInput.includes(deliver.toLowerCase())){
+            alert("Please only input 'yes' or 'no'")
+            deliver = prompt(`Do you want the order to be delivered? \nThis will cost an extra $3 totalling to $${totalCost} \n(yes/no)`);
+            if(deliver === null || deliver === ""){return}
+        }
         for (let i in cartInfo) {
             if(debug){console.log("item removed")}; // debug
             removeItem(i);

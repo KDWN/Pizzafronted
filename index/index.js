@@ -1,6 +1,33 @@
 import { getpizzas } from "../global/global.js";
 var debug = JSON.parse(localStorage.getItem("debug"));
 
+// Create menu component {
+
+// Creates a GUI for each item that should be on the menu
+function createMenu(item) {
+
+    // Sets the HTML elements
+    var newMenuItem = document.createElement("div");
+    newMenuItem.className = "menuItem";
+    var newName = document.createElement("h1");
+    var newNameText = document.createTextNode(item);
+    var newImg = document.createElement("img");
+
+    // Makes sure the image can be generated (will give an error if it can't but it will work)
+    newImg.src = `../images/${item.replace(" ", "-")}-pizza.png`;
+    newImg.onerror = () => {
+        newImg.src = "../images/unknown-pizza.png";
+    }
+    newImg.width = 175;
+
+    // Attaches the HTML elements to the page
+    newName.appendChild(newNameText);
+    newMenuItem.appendChild(newName);
+    newMenuItem.appendChild(newImg);
+    document.getElementById("menuBox").appendChild(newMenuItem);
+}
+
+// End create menu component
 
 // Add item component {
 
@@ -9,7 +36,6 @@ var debug = JSON.parse(localStorage.getItem("debug"));
 // If the input is valid it adds an item to the orderedItems and the orderList if they do not already contain that item
 // Otherwise it updates the item to increase/decrease the count and cost of the item
 // However if the input is not valid it will just ask the prompt again unless the user inputs nothing, 0, or cancels then it will end the whole function
-
 
 // Checks to make sure that the input obeys the rules of the ordering system
 function checkValidity(item, count) { 
@@ -88,6 +114,10 @@ function checkPurchase(itemName){
 // Adds a check to each menu item so when they are clicked they run the checkPurchase function to add the item to the cart
 document.addEventListener("DOMContentLoaded", () => {
     console.log("page loaded");
+    for(let pizza in getpizzas()) {
+        if(debug){console.log(`Creating ${pizza} menu item`)}
+        createMenu(pizza);
+    };
     document.querySelectorAll(".menuItem").forEach(menuItem => {
         if(debug){console.log("adding lister")}; // debug  
         menuItem.addEventListener("click", function() {
