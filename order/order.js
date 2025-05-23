@@ -8,6 +8,8 @@ var cartEmpty = false;
 // Creates a GUI for each item in the cart
 function addCartItem(name, cost, count) {
     if(debug){console.log(`name: ${name}, cost: ${cost}, count: ${count}`)} // debug
+    
+    // Sets the HTML elements
     var newItem = document.createElement("div");
     newItem.className = "cartItem";
     newItem.id = `${name}Pizza`
@@ -34,10 +36,12 @@ function addCartItem(name, cost, count) {
     var newCountText = document.createTextNode(count);
     var newIncreaseBox = document.createElement("div");
     newIncreaseBox.className = "addItem";
-    // Disables the button if its more than 99
+    
+    // Disables the increase item button if its more than 99
     if ( count > 99 ) {
         newIncreaseBox.classList.add("fullItem");
     }
+
     var newIncrease = document.createElement("p");
     var newIncreaseText = document.createTextNode("+");
     var newCostBox = document.createElement("div");
@@ -49,6 +53,8 @@ function addCartItem(name, cost, count) {
     newBin.className = "rubbish";
     newBin.src = "../images/trash-item.png";
     newBin.width = 50;
+    
+    // Attaches the HTML elements to the page
     newDecrease.appendChild(newDecreaseText)
     newDecreaseBox.appendChild(newDecrease)
     newBotLeft.appendChild(newDecreaseBox);
@@ -73,17 +79,18 @@ function addCartItem(name, cost, count) {
     document.getElementById("cartBox").appendChild(newItem);
 }
 
-// }
+// End show cart component }
 
 // Remove item component {
 
 // Removes the GUI for the items
-function removeCartItem(name) {     
+function removeCartItem(name) {
     let cartItem = document.getElementById(`${name}Pizza`);
     if(debug){cartItem} // debug
     cartItem.remove();
 }
 
+// Removes the item from the cart
 function removeItem(item) {
     
     // Convert orderList and orderedItems from string to object/array
@@ -101,8 +108,9 @@ function removeItem(item) {
     updatePrice();
 }
 
-// }
+// End remove item component }
 
+// Updates the displayed price and check if the cart is empty
 function updatePrice() {
     
     // Convert orderList and orderedItems from string to object/array
@@ -130,10 +138,13 @@ function updatePrice() {
 
 // Increase item component {
 
+// Increments the inputed item's count by one
 function increaseItem(item) {
+   
     // Convert orderList from string to object
     var cartInfo = JSON.parse(localStorage.getItem("orderList"));
 
+    // Get nessacary HTML elements
     let thisItem = item.closest(".cartItem");
     let thisBottom = item.closest(".bottomInfo");
     let thisBotLeft = item.closest(".botLeftInfo");
@@ -141,9 +152,13 @@ function increaseItem(item) {
     let thisCount = thisCountBox.childNodes[0];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
+
+    // Checks if button is disabled
     if (item.classList.contains("fullItem")){
         return ;
     }
+
+    // Increments item count by one
     cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
     thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
     cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
@@ -155,15 +170,16 @@ function increaseItem(item) {
     }
 }
 
-// }
+// End increase item component }
 
 // Decrease item component {
 
+// Decrements the inputed item's count by one and update the text of the items countBox
 function decreaseItem(item) {
     // Convert orderList from string to object
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
 
-    // Get all the impoortant HTML elements
+    // Get neccesary HTML elements
     let thisItem = item.closest(".cartItem");
     let thisBottom = item.closest(".bottomInfo");
     let thisBotLeft = item.closest(".botLeftInfo");
@@ -173,11 +189,12 @@ function decreaseItem(item) {
     let thisCost = thisCostBox.childNodes[0];
     let thisAdder = thisBotLeft.childNodes[2];
 
+    // Re-enables the increase item button
     if (thisAdder.classList.contains("fullItem")){
         thisAdder.classList.remove("fullItem");
     }
 
-    // Update the text of the items countBox
+    // Decrement item count by one and update the text of the items countBox
     if ( cartInfo[thisItem.id.replace("Pizza", "")].count - 1 !== 0 ) {
         cartInfo[thisItem.id.replace("Pizza", "")].count -= 1;
         thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
@@ -185,17 +202,21 @@ function decreaseItem(item) {
         thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
         localStorage.setItem("orderList", JSON.stringify(cartInfo));
         updatePrice();
-    } else {
+    } 
+    
+    // Removes the item if it reaches zero
+    else {
         if(confirm(`Are you sure you want to remove your ${thisItem.id.replace("Pizza", "")} pizza from the cart.`)) {
             removeItem(thisItem.id.replace("Pizza", ""));
         }
     }
 }
 
-// }
+// End decrease item component }
 
 // Complete purchase component {
 
+// Confirm's whether the user wants to pay for the item's in cart then clears the cart if they do
 function completePurchase() {
     // Convert orderList and orderedItems from string to object/array
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
@@ -216,7 +237,7 @@ function completePurchase() {
     }
 }
 
-// }
+// End complete purchase component }
 
 // Runs all the functions declared above either when the page loads or when the associated button is clicked
 document.addEventListener("DOMContentLoaded", () => {

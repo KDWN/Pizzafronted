@@ -11,51 +11,43 @@ var debug = JSON.parse(localStorage.getItem("debug"));
 // However if the input is not valid it will just ask the prompt again unless the user inputs nothing, 0, or cancels then it will end the whole function
 
 
+// Checks to make sure that the input obeys the rules of the ordering system
 function checkValidity(item, count) { 
-    // Checks to make sure that the input obeys the rules of the ordering system
 
     // Convert orderList and orderedItems from string to object/array
     var cartItems = JSON.parse(localStorage.getItem("orderedItems"));
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
 
-        // Returns values based on if/what the user did wrong
-    if(isNaN(count)) {return 3}
-    if(count % 1 !== 0 ) {return 1}
+    // Returns values based on if/what the user did wrong
+    if(isNaN(count)) {return "Please input a number"}
+    if(count % 1 !== 0 ) {return "Please input a whole number"}
     if(cartItems.includes(item)){
-        if(Number(cartInfo[item].count) + Number(count) <= 0){return 4}
-        if(Number(cartInfo[item].count) + Number(count) > 100){return 5}
+        if(Number(cartInfo[item].count) + Number(count) <= 0){return "You can't have a negative amount of pizzas. \nPlease input a higher number"}
+        if(Number(cartInfo[item].count) + Number(count) > 100){return "We can't sell you more than 100 of one pizza type. \nPlease input a lower number"}
     } else {
-        if(count < 0 ){return 2}
-        if(count > 100){return 5}
+        if(count < 0 ){return "Please input a positive number"}
+        if(count > 100){return "We can't sell you more than 100 of one pizza type. \nPlease input a lower number"}
     }
-    return 0;
+    return "none";
 }
+
+// Check what and how many products the user wants to add to cart.
 function checkPurchase(itemName){ 
-    // Check what and how many products the user wants to add to cart.
     
     // Convert orderList and orderedItems from string to object/array
     var cartItems = JSON.parse(localStorage.getItem("orderedItems")); 
     var cartInfo = JSON.parse(localStorage.getItem("orderList"));
-
-    let failType = 0;
-    let fails = [
-        "", 
-        "Please input a whole number", 
-        "Please input a positive number", 
-        "Please input a number", 
-        "You can't have a negative amount of pizzas. \nPlease input a higher number", 
-        "We can't sell you more than 100 of one pizza type. \nPlease input a lower number"
-    ];
     let itemCount = prompt(`How many ${itemName} pizzas do you want to purchase?`);
 
     // Checks if input is empty then ends the functions
     if( itemCount === null || itemCount === "" || itemCount === 0) {return} 
     
+    let failType = "none";
     // Tells the user what they did wrong then repeats the question if there is an invalid input
     failType = checkValidity(itemName.toLowerCase(), itemCount);
-    while( failType !== 0) { 
+    while( failType !== "none") { 
         if(debug){console.log(failType)} // debug
-        alert(fails[failType]);
+        alert(failType);
         itemCount = prompt(`How many ${itemName} pizzas do you want to purchase?`);
         if( itemCount === null || itemCount === "" || itemCount === 0) {return}
         failType = checkValidity(itemName.toLowerCase(), itemCount);
@@ -93,7 +85,7 @@ function checkPurchase(itemName){
     }
 }
 
-// Adds a check to each menu item so when they are clicked they run the function above with its name as the parameter
+// Adds a check to each menu item so when they are clicked they run the checkPurchase function to add the item to the cart
 document.addEventListener("DOMContentLoaded", () => {
     console.log("page loaded");
     document.querySelectorAll(".menuItem").forEach(menuItem => {
@@ -107,4 +99,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// }
+// End add item component }
