@@ -1,3 +1,18 @@
+input:-webkit-a
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-background-clip: text !important;
+}
+
 #checkout {
     display: flex;
     justify-content: space-between;
@@ -13,6 +28,7 @@
 }
 
 /*The items below are created using JS*/
+
 .cartItem {
     display: flex;
     justify-content: space-between;
@@ -83,8 +99,9 @@
     cursor: not-allowed;
 }
 
-.countBox {
+.countInput {
     width: 10vmin;
+    background: none;
     text-align: center;
     font-size: 3.5vmin;
     border: 2px solid black;
@@ -123,6 +140,7 @@
     margin: calc(0% + 6vmin) 0vmin 0.1vmin 0.1vmin;
     cursor:pointer;
 }
+
 /*End of the items that we create with JS*/
 
 #purchaseBox {
@@ -136,10 +154,6 @@
     position: fixed;
     right: 10px;
     align-items: center;
-}
-
-#topPurchase {
-    height: 30vmin;
 }
 
 #buyButton {
@@ -171,6 +185,7 @@
     cursor: not-allowed;
 }
 
+
 #costBox {
     position: relative;
     background-color: rgb(224, 214, 149);
@@ -180,6 +195,71 @@
     border-radius: 5px;
     margin-top: 5px;
 }
+
+#phoneBox {
+    position: relative;
+    box-sizing: content-box;
+    border: 3px solid rgb(176, 130, 101);
+    background-color: rgb(224, 214, 149);
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#phoneInput {
+    border: none;
+    background: none;
+    width: 100%;
+    font-size: 3vmin;
+}
+
+#deliveryBox {
+    position: relative;
+    display: flex;
+    box-sizing: content-box;
+    font-size: 2.5vmin;
+    border: 3px solid rgb(176, 130, 101);
+    background-color: rgb(224, 214, 149);
+    padding: auto;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+#deliverSubBox {
+    display: flex;
+    margin: auto;
+}
+
+#deliverCheck {
+    box-sizing: content-box;
+    width:2.5vmin;
+    opacity: 1;
+    color: blue;
+}
+
+#deliverCheck:hover {
+    cursor: pointer;
+}
+
+#addressBox {
+    position: relative;
+    display: flex;
+    box-sizing: content-box;
+    font-size: 2.5vmin;
+    border: 3px solid rgb(176, 130, 101);
+    background-color: rgb(224, 214, 149);
+    padding: auto;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+#addressInput {
+    border: none;
+    background: none;
+    width: 100%;
+    font-size: 3vmin;
+}
+
 #clearBox { 
     background-color: rgb(224, 214, 149);
     font-size: 2.5vmin;

@@ -1,6 +1,7 @@
 import { getpizzas } from "../global/global.js";
 var debug = JSON.parse(localStorage.getItem("debug"));
 var cartEmpty = false;
+var address;
 
 
 // Show cart component {
@@ -36,10 +37,11 @@ function addCartItem(name, cost, count) {
     newDecreaseBox.className = "removeItem";
     var newDecrease = document.createElement("p");
     var newDecreaseText = document.createTextNode("-");
-    var newCountBox = document.createElement("div");
-    newCountBox.className = "countBox";
-    var newCount = document.createElement("p");
-    var newCountText = document.createTextNode(count);
+    var newCount = document.createElement("input");
+    newCount.className = "countInput";
+    newCount.type = "number";
+    newCount.value = count;
+    newCount.id = `${name}Counter`;
     var newIncreaseBox = document.createElement("div");
     newIncreaseBox.className = "addItem";
     
@@ -64,9 +66,7 @@ function addCartItem(name, cost, count) {
     newDecrease.appendChild(newDecreaseText)
     newDecreaseBox.appendChild(newDecrease)
     newBotLeft.appendChild(newDecreaseBox);
-    newCount.appendChild(newCountText);
-    newCountBox.appendChild(newCount);
-    newBotLeft.appendChild(newCountBox);
+    newBotLeft.appendChild(newCount);
     newIncrease.appendChild(newIncreaseText)
     newIncreaseBox.appendChild(newIncrease)
     newBotLeft.appendChild(newIncreaseBox);
@@ -130,6 +130,9 @@ function updatePrice() {
     }
     try{
         cartInfo[cartItems[0]].cost;
+        if ( address ) {
+            totalCost += 3;
+        }
         costText.innerHTML = `$${totalCost}`;
     }
     catch (error) {
@@ -141,6 +144,62 @@ function updatePrice() {
     }
     if(debug){console.log(`cartEmpty - ${cartEmpty}`)} // debug
 }
+
+// Set count component {
+
+// Changes the value of the item to whatever the user inputted
+function inputCount(input) {
+
+    // Convert orderList from string to object
+    var cartInfo = JSON.parse(localStorage.getItem("orderList"));
+
+    // Get important HTML elements
+    let value = Number(input.value);
+    if(debug){console.log(typeof(value))} // debug
+    let thisItem = input.closest(".cartItem").id.replace("Pizza", "");
+    if(debug){console.log(thisItem)}
+    let thisBottom = input.closest(".bottomInfo");
+    let thisBotLeft = input.closest(".botLeftInfo");
+    let thisCostBox = thisBottom.childNodes[1];
+    let thisCost = thisCostBox.childNodes[0];
+    let thisAdder = thisBotLeft.childNodes[2];
+
+    if (thisAdder.classList.contains("fullItem")){
+        thisAdder.classList.remove("fullItem");
+    }
+
+    // Rounds the value if the user inputs a float
+    if ( value % 1 !== 0 ) {
+        value = Math.round(value);
+    }
+
+    // Reduce the value to the maximum limit
+    if ( value > 100 ) {
+        input.value = 100;
+        value = 100;
+        if(!thisAdder.classList.contains("fullItem")){
+            thisAdder.classList.add("fullItem");
+        }
+    }
+
+    // End function if below 1
+    if ( value <= 0 ) {
+        if(confirm(`Are you sure you want to remove your ${thisItem} pizza(s) from the cart.`)) {
+            removeItem(thisItem);
+        }
+        return;
+    }
+    
+    cartInfo[thisItem].count = value;
+    cartInfo[thisItem].cost = cartInfo[thisItem].count * getpizzas()[thisItem];
+    if(debug){console.log(cartInfo[thisItem].cost)}
+
+    // Updates JS and HTML to match the input
+    thisCost.innerHTML = `$${cartInfo[thisItem].cost}`;
+    localStorage.setItem("orderList", JSON.stringify(cartInfo));
+}
+
+// End set count component }
 
 // Increase item component {
 
@@ -154,8 +213,7 @@ function increaseItem(item) {
     let thisItem = item.closest(".cartItem");
     let thisBottom = item.closest(".bottomInfo");
     let thisBotLeft = item.closest(".botLeftInfo");
-    let thisCountBox = thisBotLeft.childNodes[1];
-    let thisCount = thisCountBox.childNodes[0];
+    let thisCount = thisBotLeft.childNodes[1];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
 
@@ -166,7 +224,7 @@ function increaseItem(item) {
 
     // Increments item count by one
     cartInfo[thisItem.id.replace("Pizza", "")].count += 1;
-    thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+    thisCount.value = cartInfo[thisItem.id.replace("Pizza", "")].count;
     cartInfo[thisItem.id.replace("Pizza", "")].cost += getpizzas()[thisItem.id.replace("Pizza", "")];
     thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
     localStorage.setItem("orderList", JSON.stringify(cartInfo));
@@ -189,8 +247,7 @@ function decreaseItem(item) {
     let thisItem = item.closest(".cartItem");
     let thisBottom = item.closest(".bottomInfo");
     let thisBotLeft = item.closest(".botLeftInfo");
-    let thisCountBox = thisBotLeft.childNodes[1];
-    let thisCount = thisCountBox.childNodes[0];
+    let thisCount = thisBotLeft.childNodes[1];
     let thisCostBox = thisBottom.childNodes[1];
     let thisCost = thisCostBox.childNodes[0];
     let thisAdder = thisBotLeft.childNodes[2];
@@ -203,7 +260,7 @@ function decreaseItem(item) {
     // Decrement item count by one and update the text of the items countBox
     if ( cartInfo[thisItem.id.replace("Pizza", "")].count - 1 !== 0 ) {
         cartInfo[thisItem.id.replace("Pizza", "")].count -= 1;
-        thisCount.innerHTML = cartInfo[thisItem.id.replace("Pizza", "")].count;
+        thisCount.value = cartInfo[thisItem.id.replace("Pizza", "")].count;
         cartInfo[thisItem.id.replace("Pizza", "")].cost -= getpizzas()[thisItem.id.replace("Pizza", "")];
         thisCost.innerHTML = `$${cartInfo[thisItem.id.replace("Pizza", "")].cost}`;
         localStorage.setItem("orderList", JSON.stringify(cartInfo));
@@ -226,35 +283,99 @@ function decreaseItem(item) {
 function completePurchase() {
     // Convert orderList and orderedItems from string to object/array
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
-    
-    var deliver;
-    var validInput = ["yes", "no"]
 
     // Calculate the the total price
     var totalCost = 0;
     for ( let i in cartInfo) {
         totalCost += cartInfo[i].cost;
     }
+    if ( address ) {
+        totalCost += 3;
+    }
 
-
-    // Reset the cart if the user's confirms
+    // Reset the cart and alert the user if they confirm the purchase
     if(confirm(`Do you want to complete purchase \nThis will cost $${totalCost}`)){
-        deliver = prompt(`Do you want the order to be delivered? \nThis will cost an extra $3 totalling to $${totalCost} \n(yes/no)`);
-        if(deliver === null || deliver === ""){return}
-        while(!validInput.includes(deliver.toLowerCase())){
-            alert("Please only input 'yes' or 'no'")
-            deliver = prompt(`Do you want the order to be delivered? \nThis will cost an extra $3 totalling to $${totalCost} \n(yes/no)`);
-            if(deliver === null || deliver === ""){return}
+        if ( address ) {
+            alert(`We thank you for attempting to purchase on our demo website. \nIf we actually sold anything we would text you the estimated time until your pizza arrives and if anything goes worng. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and won't be delivered to ${address}. \nHave a good day :)`);
         }
-        for (let i in cartInfo) {
+        else {
+            alert("We thank you for attempting to purchase on our demo website. \nIf we actually sold anything we would text you the estimated time until your pizza is ready and if anything goes worng. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and you can't pick it up. \nHave a good day :)");
+        }
+            for (let i in cartInfo) {
             if(debug){console.log("item removed")}; // debug
             removeItem(i);
         }
-        alert("We thank you for attempting to purchase on our demo website. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and won't arrive. \nHave a good day :)");
     }
 }
 
 // End complete purchase component }
+
+// Personal data component {
+
+// Validate the user's phone number input and add dashes to look pretty
+function addPhoneNum(input) {
+    var valid = /[0-9]/g;
+    var value = input.value;
+    var midput = String(value.replace("-", "").match(valid)).replaceAll(",","");
+    var output = midput;
+
+    if ( value[value.length] === "-" ) {
+        midput = midput.slice(0, -1);
+    }
+    if(debug){console.log(`1 - ${midput}`)} // debug
+
+    if ( output === "null" ) {
+        return "";
+    }
+    
+    if ( midput.length >= 4 ) {
+        output = `${midput.substring(0,3)}-${midput.substring(3,6)}`;
+        if(debug){console.log(`2 - ${output} l = ${midput.length}`)} // debug
+    }
+    if ( midput.length >= 7 ) {
+        if(debug){console.log(`3 - ${output} l = ${midput.length}`)} // debug
+        output = `${output}-${midput.substring(6)}`;
+    }
+    if ( midput.length > 10 ) {
+        if(debug){console.log(`4 - ${output} l = ${midput.length}`)} // debug
+        output = output.substring(0,10);
+    }
+    if(debug){console.log(`Output - ${output}`)} // debug
+    return output;
+}
+
+// Create/remove the address box if the delivery box is checked
+function checkDelivery() {
+    let state = document.getElementById("deliverCheck").checked;
+    let container = document.getElementById("purchaseBox");
+    if(debug){console.log(`state - ${state}`)} // debug
+    if ( state === true ) {
+
+        // Set up the address input field
+        let addressBox = document.createElement("div");
+        addressBox.id = "addressBox";
+        let addressInput = document.createElement("input");
+        addressInput.id = "addressInput";
+        addressInput.placeholder = "Address:";
+        addressBox.appendChild(addressInput);
+        addressInput.addEventListener("input", function(){
+            if(debug){console.log(addressInput.value)}
+            address = addressInput.value;
+            updatePrice();
+        });
+        
+        // Attach the address input field
+        container.insertBefore(addressBox, container.childNodes[8]);
+    }
+    else {
+        // removes the address input field
+        let addressBox = document.getElementById("addressBox");
+        addressBox.remove();
+    }
+}
+
+// End personal data component }
+
 
 // Runs all the functions declared above either when the page loads or when the associated button is clicked
 document.addEventListener("DOMContentLoaded", () => {
@@ -264,6 +385,9 @@ document.addEventListener("DOMContentLoaded", () => {
     var cartItems = JSON.parse(localStorage.getItem("orderedItems")); 
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
 
+    // Set the phone number for later
+    var phoneNumber;
+
     // Add all the HTML items for the user to see when the page loads
     for (let i in cartInfo) {
         if(debug){console.log("item added")}; // debug
@@ -271,6 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     updatePrice();
     
+    if(debug){console.log("adding listner")} // debug
     // Add a check to the clear button so that when clicked the cart is emptied
     document.querySelector("#clearBox").addEventListener("click", function() {
         if(!cartEmpty){
@@ -282,6 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    if(debug){console.log("adding listner")} // debug
     // Add a check to the purchase button so that when clicked the user may complete the purchase and clear the cart
     document.querySelector("#buyButton").addEventListener("click", function() {
         if(!cartEmpty){
@@ -289,10 +415,27 @@ document.addEventListener("DOMContentLoaded", () => {
             cartInfo = JSON.parse(localStorage.getItem("orderList"));
         }
     });
+    
+    if(debug){console.log("adding listner")} // debug
+    // Add a check to the phone input so that the phoneNumber changes to the user's input
+    document.querySelector("#phoneInput").addEventListener("input", function() {
+        
+        if(debug){console.log(`input - ${this.value}`)} // debug
+        phoneNumber = addPhoneNum(this);
+        this.value = phoneNumber;
+        if(debug){console.log(`value - ${this.value}`)} // debug
+    });
+
+    if(debug){console.log("adding listner")} // debug
+    // Add a check that creates the address box and sets delivery to true when the checkbox is check
+    document.querySelector("#deliverCheck").addEventListener("input", function() {
+        checkDelivery();
+        updatePrice();
+    });
 
     // Add a check to each bin icon so that when clicked it removes the associated item
     document.querySelectorAll(".rubbish").forEach(bin => { 
-        if(debug){console.log("adding lister")};
+        if(debug){console.log("adding listner")} // debug
         bin.addEventListener("click", function() {
             let thisItem = this.closest(".cartItem");
             if(confirm(`Are you sure you want to remove your ${thisItem.id.replace("Pizza", "")} pizza(s) from the cart.`)) {
@@ -303,7 +446,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Add a check to each increase button so that when clicked it increments the associated item's count by one
-    document.querySelectorAll(".addItem").forEach(adder => { 
+    document.querySelectorAll(".addItem").forEach(adder => {  
+        if(debug){console.log("adding listner")}; // debug
         adder.addEventListener("click", function() {
             increaseItem(this);
             cartInfo = JSON.parse(localStorage.getItem("orderList"));
@@ -311,10 +455,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Add a check to each decrease button so that when clicked it decrements the associated item's count by one
-    document.querySelectorAll(".removeItem").forEach(reducer => { 
+    document.querySelectorAll(".removeItem").forEach(reducer => {  
+        if(debug){console.log("adding listner")}; // debug
         reducer.addEventListener("click", function() {
             decreaseItem(this);
             cartInfo = JSON.parse(localStorage.getItem("orderList"));
+        });
+    });
+
+    // Add a check to each count input so that everything changes to account for the user's input
+    document.querySelectorAll(".countInput").forEach(input => { 
+        if(debug){console.log("adding listner")} // debug
+        input.addEventListener("input", function() {
+            if(debug){console.log(`input - ${this.value}`)} // debug
+            inputCount(this);
+            cartInfo = JSON.parse(localStorage.getItem("orderList"));
+            
+            // Make sure the value is always atleast 1
+            if(Number(this.value) <= 0){
+                this.value = 1;
+            }
+            
+            // Round the value if the user inputs a float
+            if (Number(this.value) % 1 !== 0){
+                this.value = Math.round(Number(this.value));
+            }
+            
+            if(debug){console.log(`value - ${this.value}`)} // debug
+            updatePrice();
         });
     });
 });
