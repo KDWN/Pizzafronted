@@ -66,7 +66,7 @@ function checkPurchase(itemName){
     let itemCount = prompt(`How many ${itemName} pizzas do you want to purchase?`);
 
     // Checks if input is empty then ends the functions
-    if( itemCount === null || itemCount === "" || itemCount === 0) {return} 
+    if( itemCount === null || itemCount === "" || Number(itemCount) === 0) {return} 
     
     let failType = "none";
     // Tells the user what they did wrong then repeats the question if there is an invalid input
@@ -75,7 +75,7 @@ function checkPurchase(itemName){
         if(debug){console.log(failType)} // debug
         alert(failType);
         itemCount = prompt(`How many ${itemName} pizzas do you want to purchase?`);
-        if( itemCount === null || itemCount === "" || itemCount === 0) {return}
+        if( itemCount === null || itemCount === "" || Number(itemCount) === 0) {return}
         failType = checkValidity(itemName.toLowerCase(), itemCount);
     }
     
