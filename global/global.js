@@ -7,11 +7,17 @@ catch {
 export const pizzas = {
     //  pizza name (String) : pizza price (Number)
         "cheese" : 5,
+        "tomato" : 5.5,
+        "garlic" : 7.5,
         "pepperoni" : 8,
-        "garlic cheese" : 7.5,
+        "vegetarian" : 8,
+        "mushroom" : 9,
         "hawaiian" : 10,
         "margherita" : 10,
-        "meat lovers" : 12.5
+        "jalapeno" : 11,
+        "meat lovers" : 12.5,
+        "apple" : 12.5,
+        "truffle" : 15
 }
 
 // calls pizzas for when we want to use it

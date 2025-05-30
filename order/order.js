@@ -39,7 +39,6 @@ function addCartItem(name, cost, count) {
     var newDecreaseText = document.createTextNode("-");
     var newCount = document.createElement("input");
     newCount.className = "countInput";
-    newCount.type = "number";
     newCount.value = count;
     newCount.id = `${name}Counter`;
     var newIncreaseBox = document.createElement("div");
@@ -145,7 +144,7 @@ function updatePrice() {
     if(debug){console.log(`cartEmpty - ${cartEmpty}`)} // debug
 }
 
-// Set count component {
+// Input count component {
 
 // Changes the value of the item to whatever the user inputted
 function inputCount(input) {
@@ -153,8 +152,14 @@ function inputCount(input) {
     // Convert orderList from string to object
     var cartInfo = JSON.parse(localStorage.getItem("orderList"));
 
+    var valid = /[0-9]/g;
+    var value = Number(String(input.value.match(valid)).replaceAll(",",""));
+    if ( isNaN(value) ) {
+        value = 0;
+    }
+    if(debug){console.log(`value - ${value}`)} // debug
+
     // Get important HTML elements
-    let value = Number(input.value);
     if(debug){console.log(typeof(value))} // debug
     let thisItem = input.closest(".cartItem").id.replace("Pizza", "");
     if(debug){console.log(thisItem)}
@@ -164,6 +169,7 @@ function inputCount(input) {
     let thisCost = thisCostBox.childNodes[0];
     let thisAdder = thisBotLeft.childNodes[2];
 
+    // Enables the increase item button
     if (thisAdder.classList.contains("fullItem")){
         thisAdder.classList.remove("fullItem");
     }
@@ -173,7 +179,7 @@ function inputCount(input) {
         value = Math.round(value);
     }
 
-    // Reduce the value to the maximum limit
+    // Limit the value to 100 and disable increasing if over 100
     if ( value > 100 ) {
         input.value = 100;
         value = 100;
@@ -189,17 +195,19 @@ function inputCount(input) {
         }
         return;
     }
+
+    // Update the shown value incase of an invalid input
+    input.value = value;
     
+    // Updates JS and HTML to match the input
     cartInfo[thisItem].count = value;
     cartInfo[thisItem].cost = cartInfo[thisItem].count * getpizzas()[thisItem];
-    if(debug){console.log(cartInfo[thisItem].cost)}
-
-    // Updates JS and HTML to match the input
+    if(debug){console.log(cartInfo[thisItem].cost)} // debug
     thisCost.innerHTML = `$${cartInfo[thisItem].cost}`;
     localStorage.setItem("orderList", JSON.stringify(cartInfo));
 }
 
-// End set count component }
+// End input count component }
 
 // Increase item component {
 
@@ -296,10 +304,10 @@ function completePurchase() {
     // Reset the cart and alert the user if they confirm the purchase
     if(confirm(`Do you want to complete purchase \nThis will cost $${totalCost}`)){
         if ( address ) {
-            alert(`We thank you for attempting to purchase on our demo website. \nIf we actually sold anything we would text you the estimated time until your pizza arrives and if anything goes worng. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and won't be delivered to ${address}. \nHave a good day :)`);
+            alert(`We thank you for attempting to purchase on our demo website. \nIf we actually sold anything we would text you the estimated time until your pizza arrives and if anything goes worng. \nUnfourtunately this demo doesn't allow users to spend money so your pizza doesn't exist and won't be delivered to ${address}. \nHave a good day :)`);
         }
         else {
-            alert("We thank you for attempting to purchase on our demo website. \nIf we actually sold anything we would text you the estimated time until your pizza is ready and if anything goes worng. \nUnfourtunately this demo doesn't allow user's to spend money so your pizza doesn't exist and you can't pick it up. \nHave a good day :)");
+            alert("We thank you for attempting to purchase on our demo website. \nIf we actually sold anything we would text you the estimated time until your pizza is ready and if anything goes worng. \nUnfourtunately this demo doesn't allow users to spend money so your pizza doesn't exist and you can't pick it up. \nHave a good day :)");
         }
             for (let i in cartInfo) {
             if(debug){console.log("item removed")}; // debug
@@ -381,13 +389,12 @@ function checkDelivery() {
 document.addEventListener("DOMContentLoaded", () => {
     if(debug){console.log("page loaded")} // debug
 
-    // Convert orderList and orderedItems from string to object/array
-    var cartItems = JSON.parse(localStorage.getItem("orderedItems")); 
+    // Convert orderList from string to object
     var cartInfo = JSON.parse(localStorage.getItem("orderList")); 
 
     // Set the phone number for later
     var phoneNumber;
-
+    
     // Add all the HTML items for the user to see when the page loads
     for (let i in cartInfo) {
         if(debug){console.log("item added")}; // debug
@@ -419,7 +426,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if(debug){console.log("adding listner")} // debug
     // Add a check to the phone input so that the phoneNumber changes to the user's input
     document.querySelector("#phoneInput").addEventListener("input", function() {
-        
         if(debug){console.log(`input - ${this.value}`)} // debug
         phoneNumber = addPhoneNum(this);
         this.value = phoneNumber;
